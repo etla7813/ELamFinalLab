@@ -1,0 +1,8 @@
+../Core/Src/Gyro.c:13:6:Gyro_Init	1
+../Core/Src/Gyro.c:61:6:Gyro_getDeviceID	2
+../Core/Src/Gyro.c:76:6:Gyro_PowerOn	3
+../Core/Src/Gyro.c:94:6:Gyro_getTemp	2
+../Core/Src/Gyro.c:109:6:Gyro_RegConfig	3
+../Core/Src/Gyro.c:127:6:Gyro_checkHALStatus	2
+../Core/Src/Gyro.c:133:6:Gyro_enableSlaveComm	1
+../Core/Src/Gyro.c:138:6:Gyro_disableSlaveComm	1

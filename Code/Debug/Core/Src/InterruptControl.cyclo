@@ -1,0 +1,5 @@
+../Core/Src/InterruptControl.c:11:6:NVIC_EnableIRQs	3
+../Core/Src/InterruptControl.c:20:6:NVIC_DisableIRQs	3
+../Core/Src/InterruptControl.c:29:6:NVIC_SetPendingIRQs	3
+../Core/Src/InterruptControl.c:37:6:NVIC_ClearPendingIRQs	3
+../Core/Src/InterruptControl.c:45:6:EXTI_ClearPendingBit	1
