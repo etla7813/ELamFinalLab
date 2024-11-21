@@ -1,7 +1,7 @@
 /*
  * RNG_Driver.h
  *
- *  Created on: Nov 19, 2024
+ *  Created on: Nov 21, 2024
  *      Author: Ethan
  */
 
@@ -11,10 +11,7 @@
 #include <stm32f4xx_hal.h>
 
 void RNG_Init();
-void RNG_getVal();
-
-//just for later
-// __HAL_RCC_RNG_CLK_ENABLE()
+uint32_t RNG_getVal();
 
 
 

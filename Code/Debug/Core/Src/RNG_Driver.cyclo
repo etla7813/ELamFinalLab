@@ -1,0 +1,2 @@
+../Core/Src/RNG_Driver.c:12:6:RNG_Init	1
+../Core/Src/RNG_Driver.c:16:10:RNG_getVal	1
