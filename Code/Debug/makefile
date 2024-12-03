@@ -61,7 +61,7 @@ main-build: ELamLabFinal.elf secondary-outputs
 
 # Tool invocations
 ELamLabFinal.elf ELamLabFinal.map: $(OBJS) $(USER_OBJS) C:\ECEN2370\ Stuff\ELamFinalLab\Code\STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "ELamLabFinal.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\ECEN2370 Stuff\ELamFinalLab\Code\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ELamLabFinal.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	arm-none-eabi-gcc -o "ELamLabFinal.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\ECEN2370 Stuff\ELamFinalLab\Code\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ELamLabFinal.map" -Wl,--gc-sections -static -specs=rdimon.specs --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

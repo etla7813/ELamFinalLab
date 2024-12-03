@@ -236,6 +236,35 @@ void LCD_Draw_Vertical_Line(uint16_t x, uint16_t y, uint16_t len, uint16_t color
   }
 }
 
+void LCD_Draw_Horizontal_Line(uint16_t x, uint16_t y, uint16_t len, uint16_t color)
+{
+	for (uint16_t i = 0; i < len; i++)
+	 {
+		LCD_Draw_Pixel(i+x, y, color);
+	 }
+}
+
+//void LCD_Draw_Square()
+
+void LCD_DrawGrid()
+{
+	LCD_Clear(0, LCD_COLOR_WHITE);
+	int16_t xpos_inc = xmax_length/11;
+	int16_t ypos_inc = ymax_length/10;
+	//draw vertical lines
+	for(int16_t i =0; i < 11; i++)
+	{
+		LCD_Draw_Vertical_Line(xpos_inc,0,ymax_length,LCD_COLOR_BLACK);
+		xpos_inc = xpos_inc + xmax_length/11;
+	}
+	//draw horizontal lines
+	for(int16_t i =0; i < 10; i++)
+	{
+		LCD_Draw_Horizontal_Line(0, ypos_inc, xmax_length, LCD_COLOR_BLACK);
+		ypos_inc = ypos_inc + ymax_length/10;
+	}
+}
+
 void LCD_Clear(uint8_t LayerIndex, uint16_t Color)
 {
 	if (LayerIndex == 0){
@@ -331,6 +360,20 @@ void visualDemo(void)
 	LCD_DisplayChar(140,160,'d');
 }
 
+void LCD_StartScreen()
+{
+	LCD_Clear(0,LCD_COLOR_BLUE);
+	LCD_SetTextColor(LCD_COLOR_BLACK);
+	LCD_SetFont(&Font16x24);
+
+	LCD_DisplayChar(85,140,'T');
+	LCD_DisplayChar(100,140,'e');
+	LCD_DisplayChar(112.5,140,'t');
+	LCD_DisplayChar(125,140,'r');
+	LCD_DisplayChar(135,140,'i');
+	LCD_DisplayChar(145,140,'s');
+}
+
 /**
   * @brief  This function is executed in case of error occurrence.
   * @retval None
@@ -377,5 +420,8 @@ void WriteDataToTouchModule(uint8_t RegToWrite, uint8_t writeData)
 {
 	STMPE811_Write(RegToWrite, writeData);
 }
+
+//game drawing stuff//////////////////////////
+
 
 #endif // COMPILE_TOUCH_FUNCTIONS

@@ -16,6 +16,10 @@
 #define COMPILE_TOUCH_FUNCTIONS COMPILE_TOUCH
 #define TOUCH_INTERRUPT_ENABLED COMPILE_TOUCH_INTERRUPT_SUPPORT
 
+//screen size macros
+#define ymax_length	323
+#define xmax_length 269
+
 /**
   * @brief  LCD color RGB565
   */
@@ -65,14 +69,22 @@ void LCD_SetFont(FONT_t *fonts);
 // Draw Circle Filled
 void LCD_Draw_Circle_Fill(uint16_t Xpos, uint16_t Ypos, uint16_t radius, uint16_t color);
 
+void LCD_Draw_Square_Fill();
+
+void LCD_DrawGrid();
+
 // Draw Vertical Line
 void LCD_Draw_Vertical_Line(uint16_t x, uint16_t y, uint16_t len, uint16_t color);
+void LCD_Draw_Horizontal_Line(uint16_t x, uint16_t y, uint16_t len, uint16_t color);
 void LCD_Clear(uint8_t LayerIndex, uint16_t Color);
 
 void LCD_Error_Handler(void);
 
 // Demo using provided functions
 void visualDemo(void);
+
+//Screen Drawing
+void LCD_StartScreen();
 
 void LCD_Error_Handler(void);
 
