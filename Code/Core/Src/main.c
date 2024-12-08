@@ -43,20 +43,19 @@ int main(void)
 
   LCD_StartScreen();
 
-  HAL_Delay(5000);
-
-  LCD_DrawGrid();
   //LCD_Visual_Demo();
-
-  HAL_Delay(5000);
 
   // DO NOT CALL THIS FUNCTION WHEN INTERRUPT MODE IS SELECTED IN THE COMPILE SWITCH IN stmpe811.h
   // Un-comment the below function after setting COMPILE_TOUCH to 1 in stmpe811.h
   //LCD_Touch_Polling_Demo(); // This function Will not return
 
+ extern uint16_t level;
   while (1)
   {
-
+	  while(level == 2)
+	  {
+		  spawnSquare();
+	  }
   }
 
 }

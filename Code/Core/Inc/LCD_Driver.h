@@ -13,12 +13,16 @@
 #include "fonts.h"
 #include "stmpe811.h"
 
+#define titleScreen 1
+#define gameScreen	2
+#define endScreen	3
+
 #define COMPILE_TOUCH_FUNCTIONS COMPILE_TOUCH
 #define TOUCH_INTERRUPT_ENABLED COMPILE_TOUCH_INTERRUPT_SUPPORT
 
 //screen size macros
-#define ymax_length	323
-#define xmax_length 269
+#define ymax_length	320
+#define xmax_length 240
 
 /**
   * @brief  LCD color RGB565

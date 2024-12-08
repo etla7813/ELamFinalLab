@@ -9,12 +9,14 @@
 
 static RNG_HandleTypeDef RNG_1 = {0};
 
-void RNG_Init()
+void RNGInit()
 {
+	__HAL_RCC_RNG_CLK_ENABLE();
+	RNG_1.Instance = RNG;
 	HAL_RNG_Init(&RNG_1);
 }
 uint32_t RNG_getVal()
 {
-	uint32_t rng_val = HAL_RNG_GetRandomNumber(&RNG_1);
-	return rng_val;
+	uint32_t block_val = HAL_RNG_GetRandomNumber(&RNG_1);
+	return block_val;
 }

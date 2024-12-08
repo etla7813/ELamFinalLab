@@ -9,10 +9,20 @@
 #include "stm32f4xx_hal.h"
 
 #include <stdio.h>
+#include <Block_Driver.h>
+#include <RNG_Driver.h>
+
+void spawnBlock();
+void spawnSquare();
+void spawnRect();
+void spawnS();
+void spawnZ();
 
 
 #ifndef INC_APPLICATIONCODE_H_
 #define INC_APPLICATIONCODE_H_
+
+void RNGInit();
 
 void ApplicationInit(void);
 void LCD_Visual_Demo(void);

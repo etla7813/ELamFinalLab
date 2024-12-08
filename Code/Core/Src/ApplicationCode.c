@@ -26,6 +26,7 @@ void ApplicationInit(void)
     LTCD__Init();
     LTCD_Layer_Init(0);
     LCD_Clear(0,LCD_COLOR_WHITE);
+    RNGInit();
 
     #if COMPILE_TOUCH_FUNCTIONS == 1
 	InitializeLCDTouch();
@@ -46,24 +47,52 @@ void LCD_Visual_Demo(void)
 	visualDemo();
 }
 
+extern uint16_t level;
 #if COMPILE_TOUCH_FUNCTIONS == 1
 void LCD_Touch_Polling_Demo(void)
 {
-	LCD_Clear(0,LCD_COLOR_GREEN);
+	LCD_StartScreen();
 	while (1) {
 		/* If touch pressed */
 		if (returnTouchStateAndLocation(&StaticTouchData) == STMPE811_State_Pressed) {
 			/* Touch valid */
 			printf("\nX: %03d\nY: %03d\n", StaticTouchData.x, StaticTouchData.y);
-			LCD_Clear(0, LCD_COLOR_RED);
+			if(level == 1)
+			{
+				LCD_DrawGrid();
+				level =2;
+			}
 		} else {
 			/* Touch not pressed */
 			printf("Not Pressed\n\n");
-			LCD_Clear(0, LCD_COLOR_GREEN);
 		}
 	}
 }
 
+void spawnBlock()
+{
+	spawn_block();
+}
+
+void spawnSquare()
+{
+	spawn_square(xstart2, 0, LCD_COLOR_YELLOW);
+}
+
+void spawnRect()
+{
+	spawn_rect(xstart2, 0, LCD_COLOR_BLUE);
+}
+
+void spawnS()
+{
+	spawn_s(xstart2, 0, LCD_COLOR_RED);
+}
+
+void spawnZ()
+{
+	spawn_z(xstart2, 0, LCD_COLOR_GREEN);
+}
 
 // TouchScreen Interrupt
 #if TOUCH_INTERRUPT_ENABLED == 1
@@ -126,14 +155,18 @@ void EXTI15_10_IRQHandler()
 		// May need to do numerous retries? 
 		DetermineTouchPosition(&StaticTouchData);
 		/* Touch valid */
-		printf("\nX: %03d\nY: %03d \n", StaticTouchData.x, StaticTouchData.y);
-		LCD_Clear(0, LCD_COLOR_RED);
+		printf("\nX: %03d\nY: %03d\n", StaticTouchData.x, StaticTouchData.y);
+		if(level == 1)
+		{
+			LCD_DrawGrid();
+			spawnBlock();
+			level =2;
+		}
 
 	}else{
 
 		/* Touch not pressed */
 		printf("\nNot pressed \n");
-		LCD_Clear(0, LCD_COLOR_GREEN);
 	}
 
 	STMPE811_Write(STMPE811_FIFO_STA, 0x01);

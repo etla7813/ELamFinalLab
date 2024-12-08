@@ -10,9 +10,7 @@
 
 #include <stm32f4xx_hal.h>
 
-void RNG_Init();
+void RNGInit();
 uint32_t RNG_getVal();
-
-
 
 #endif /* INC_RNG_DRIVER_H_ */

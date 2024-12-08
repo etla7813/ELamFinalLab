@@ -18,6 +18,7 @@ static RCC_PeriphCLKInitTypeDef  PeriphClkInitStruct;
 static FONT_t *LCD_Currentfonts;
 static uint16_t CurrentTextColor   = 0xFFFF;
 
+volatile uint16_t level = titleScreen;
 
 /*
  * fb[y*W+x] OR fb[y][x]
@@ -248,21 +249,22 @@ void LCD_Draw_Horizontal_Line(uint16_t x, uint16_t y, uint16_t len, uint16_t col
 
 void LCD_DrawGrid()
 {
-	LCD_Clear(0, LCD_COLOR_WHITE);
-	int16_t xpos_inc = xmax_length/11;
-	int16_t ypos_inc = ymax_length/10;
+	LCD_Clear(0, LCD_COLOR_BLACK);
+	int16_t xpos_inc = 24;
+	int16_t ypos_inc = 24;
 	//draw vertical lines
-	for(int16_t i =0; i < 11; i++)
+	for(int16_t i =0; i < 9; i++)
 	{
-		LCD_Draw_Vertical_Line(xpos_inc,0,ymax_length,LCD_COLOR_BLACK);
-		xpos_inc = xpos_inc + xmax_length/11;
+		LCD_Draw_Vertical_Line(xpos_inc ,0,240,LCD_COLOR_WHITE);
+		xpos_inc = xpos_inc + 24;
 	}
 	//draw horizontal lines
 	for(int16_t i =0; i < 10; i++)
 	{
-		LCD_Draw_Horizontal_Line(0, ypos_inc, xmax_length, LCD_COLOR_BLACK);
-		ypos_inc = ypos_inc + ymax_length/10;
+		LCD_Draw_Horizontal_Line(24, ypos_inc, 192, LCD_COLOR_WHITE);
+		ypos_inc = ypos_inc + 24;
 	}
+	LCD_Draw_Horizontal_Line(0,0,10, LCD_COLOR_RED);
 }
 
 void LCD_Clear(uint8_t LayerIndex, uint16_t Color)
