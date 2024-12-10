@@ -18,6 +18,8 @@ void spawnRect();
 void spawnS();
 void spawnZ();
 
+void gameRun();
+
 
 #ifndef INC_APPLICATIONCODE_H_
 #define INC_APPLICATIONCODE_H_

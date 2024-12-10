@@ -33,7 +33,8 @@ int main(void)
 {
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+
+	HAL_Init();
 
   // The default system configuration function is "suspect" so we need to make our own clock configuration
   // Note - You, the developer, MAY have to play with some of this coniguration as you progress in your project
@@ -41,7 +42,15 @@ int main(void)
 
   ApplicationInit(); // Initializes the LCD functionality
 
+  HAL_Delay(1000);
+
   LCD_StartScreen();
+
+  HAL_Delay(1500);
+
+  LCD_DrawGrid();
+
+  gameRun();
 
   //LCD_Visual_Demo();
 
@@ -52,9 +61,9 @@ int main(void)
  extern uint16_t level;
   while (1)
   {
-	  while(level == 2)
+	  if(level == 2)
 	  {
-		  spawnSquare();
+		  gameRun();
 	  }
   }
 

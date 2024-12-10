@@ -36,6 +36,13 @@ void spawn_j(int16_t x, int16_t y, uint16_t color);
 void spawn_t(int16_t x, int16_t y, uint16_t color);
 
 void spawn_block();
+void block_fall();
+uint16_t block_checkCollision();
+void block_place();
+void check_gameEnd();
+void block_rotate();
+
+void game_Run();
 
 
 #endif /* INC_BLOCK_DRIVER_H_ */

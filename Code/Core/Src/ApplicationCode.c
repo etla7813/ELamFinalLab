@@ -6,6 +6,7 @@
  */
 
 #include "ApplicationCode.h"
+#include <InterruptControl.h>
 
 /* Static variables */
 
@@ -27,6 +28,7 @@ void ApplicationInit(void)
     LTCD_Layer_Init(0);
     LCD_Clear(0,LCD_COLOR_WHITE);
     RNGInit();
+    buttonInterruptMode();
 
     #if COMPILE_TOUCH_FUNCTIONS == 1
 	InitializeLCDTouch();
@@ -61,6 +63,7 @@ void LCD_Touch_Polling_Demo(void)
 			{
 				LCD_DrawGrid();
 				level =2;
+				gameRun();
 			}
 		} else {
 			/* Touch not pressed */
@@ -94,6 +97,10 @@ void spawnZ()
 	spawn_z(xstart2, 0, LCD_COLOR_GREEN);
 }
 
+void gameRun()
+{
+	game_Run();
+}
 // TouchScreen Interrupt
 #if TOUCH_INTERRUPT_ENABLED == 1
 
@@ -104,11 +111,11 @@ void LCDTouchScreenInterruptGPIOInit(void)
     LCDConfig.Mode = GPIO_MODE_IT_RISING_FALLING;
     LCDConfig.Pull = GPIO_NOPULL;
     LCDConfig.Speed = GPIO_SPEED_FREQ_HIGH;
-    
+
     // Clock enable
     __HAL_RCC_GPIOA_CLK_ENABLE();
 
-    // GPIO Init      
+    // GPIO Init
     HAL_GPIO_Init(GPIOA, &LCDConfig);
 
     // Interrupt Configuration
@@ -159,8 +166,8 @@ void EXTI15_10_IRQHandler()
 		if(level == 1)
 		{
 			LCD_DrawGrid();
-			spawnBlock();
 			level =2;
+			gameRun();
 		}
 
 	}else{
@@ -183,6 +190,15 @@ void EXTI15_10_IRQHandler()
 	WriteDataToTouchModule(STMPE811_INT_STA, clearIRQData);
 
 }
+
+void EXTI0_IRQHandler(void)
+{
+	NVIC_DisableIRQs(EXTI0_IRQn);
+	block_rotate();
+	EXTI_ClearPendingBit(EXTI0_IRQn);
+	NVIC_EnableIRQs(EXTI0_IRQn);
+}
+
 #endif // TOUCH_INTERRUPT_ENABLED
 #endif // COMPILE_TOUCH_FUNCTIONS
 
