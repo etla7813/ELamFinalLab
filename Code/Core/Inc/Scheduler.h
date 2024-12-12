@@ -14,8 +14,7 @@
 //#define POLL_EVENT			(1 << 2)
 
 //lab5 additions and the ones previous not needed
-#define APP_DELAY_FLAG_EVENT (1<<0)
-#define DEVICE_ID_AND_TEMP_EVENT (1<<1)
+#define START_GAME (1 << 0)
 
 uint32_t 	getScheduledEvents();
 void 		addSchedulerEvent(uint32_t event);

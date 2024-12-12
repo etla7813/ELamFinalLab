@@ -11,6 +11,10 @@
 #include <stdio.h>
 #include <Block_Driver.h>
 #include <RNG_Driver.h>
+#include <Scheduler.h>
+#include <Button_Driver.h>
+#include <LCD_Driver.h>
+#include <InterruptControl.h>
 
 void spawnBlock();
 void spawnSquare();

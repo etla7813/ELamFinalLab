@@ -6,7 +6,6 @@
  */
 
 #include "ApplicationCode.h"
-#include <InterruptControl.h>
 
 /* Static variables */
 
@@ -21,12 +20,17 @@ void LCDTouchScreenInterruptGPIOInit(void);
 #endif // TOUCH_INTERRUPT_ENABLED
 #endif // COMPILE_TOUCH_FUNCTIONS
 
+void gameRun()
+{
+	game_Run();
+}
 void ApplicationInit(void)
 {
-	//initialise_monitor_handles(); // Allows printf functionality
+	initialise_monitor_handles(); // Allows printf functionality
     LTCD__Init();
     LTCD_Layer_Init(0);
     LCD_Clear(0,LCD_COLOR_WHITE);
+
     RNGInit();
     buttonInterruptMode();
 
@@ -49,58 +53,25 @@ void LCD_Visual_Demo(void)
 	visualDemo();
 }
 
-extern uint16_t level;
 #if COMPILE_TOUCH_FUNCTIONS == 1
 void LCD_Touch_Polling_Demo(void)
 {
-	LCD_StartScreen();
+	LCD_Clear(0,LCD_COLOR_GREEN);
 	while (1) {
 		/* If touch pressed */
 		if (returnTouchStateAndLocation(&StaticTouchData) == STMPE811_State_Pressed) {
 			/* Touch valid */
 			printf("\nX: %03d\nY: %03d\n", StaticTouchData.x, StaticTouchData.y);
-			if(level == 1)
-			{
-				LCD_DrawGrid();
-				level =2;
-				gameRun();
-			}
+			LCD_Clear(0, LCD_COLOR_RED);
 		} else {
 			/* Touch not pressed */
 			printf("Not Pressed\n\n");
+			LCD_Clear(0, LCD_COLOR_GREEN);
 		}
 	}
 }
 
-void spawnBlock()
-{
-	spawn_block();
-}
 
-void spawnSquare()
-{
-	spawn_square(xstart2, 0, LCD_COLOR_YELLOW);
-}
-
-void spawnRect()
-{
-	spawn_rect(xstart2, 0, LCD_COLOR_BLUE);
-}
-
-void spawnS()
-{
-	spawn_s(xstart2, 0, LCD_COLOR_RED);
-}
-
-void spawnZ()
-{
-	spawn_z(xstart2, 0, LCD_COLOR_GREEN);
-}
-
-void gameRun()
-{
-	game_Run();
-}
 // TouchScreen Interrupt
 #if TOUCH_INTERRUPT_ENABLED == 1
 
@@ -111,11 +82,11 @@ void LCDTouchScreenInterruptGPIOInit(void)
     LCDConfig.Mode = GPIO_MODE_IT_RISING_FALLING;
     LCDConfig.Pull = GPIO_NOPULL;
     LCDConfig.Speed = GPIO_SPEED_FREQ_HIGH;
-
+    
     // Clock enable
     __HAL_RCC_GPIOA_CLK_ENABLE();
 
-    // GPIO Init
+    // GPIO Init      
     HAL_GPIO_Init(GPIOA, &LCDConfig);
 
     // Interrupt Configuration
@@ -162,13 +133,8 @@ void EXTI15_10_IRQHandler()
 		// May need to do numerous retries? 
 		DetermineTouchPosition(&StaticTouchData);
 		/* Touch valid */
-		printf("\nX: %03d\nY: %03d\n", StaticTouchData.x, StaticTouchData.y);
-		if(level == 1)
-		{
-			LCD_DrawGrid();
-			level =2;
-			gameRun();
-		}
+		printf("\nX: %03d\nY: %03d \n", StaticTouchData.x, StaticTouchData.y);
+		addSchedulerEvent(START_GAME);
 
 	}else{
 
@@ -188,17 +154,17 @@ void EXTI15_10_IRQHandler()
 
 	//Potential ERRATA? Clearing IRQ bit again due to an IRQ being triggered DURING the handling of this IRQ..
 	WriteDataToTouchModule(STMPE811_INT_STA, clearIRQData);
-
 }
-
-void EXTI0_IRQHandler(void)
-{
-	NVIC_DisableIRQs(EXTI0_IRQn);
-	block_rotate();
-	EXTI_ClearPendingBit(EXTI0_IRQn);
-	NVIC_EnableIRQs(EXTI0_IRQn);
-}
-
 #endif // TOUCH_INTERRUPT_ENABLED
 #endif // COMPILE_TOUCH_FUNCTIONS
+
+extern uint16_t rotation;
+void EXTI0_IRQHandler(void)
+{
+	NVIC_DisableIRQ(EXTI0_IRQn);
+	rotation++;
+	block_rotate();
+	EXTI_ClearPendingBit(EXTI0_IRQn);
+	NVIC_EnableIRQ(EXTI0_IRQn);
+}
 
